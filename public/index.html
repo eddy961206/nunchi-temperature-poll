@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#111827" />
+  <title>눈치온도 - 더워요/추워요 익명 투표</title>
+  <meta name="description" content="QR로 들어와서 더워요, 괜찮아요, 추워요만 누르는 초간단 사무실 온도 눈치 투표." />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="bg-orb bg-orb-1"></div>
+  <div class="bg-orb bg-orb-2"></div>
+
+  <main id="app" class="app-shell" aria-live="polite"></main>
+
+  <template id="home-template">
+    <section class="hero card">
+      <div class="eyebrow">눈치 안 보고 공용 온도 조절하기</div>
+      <h1>지금 우리 공간,<br><span>더워? 추워?</span></h1>
+      <p class="lead">QR 하나 띄우고 사람들이 <b>더워요 / 괜찮아요 / 추워요</b>만 누르면 끝. 누가 예민한지 따지지 말고 전체 분위기를 봐.</p>
+
+      <form id="create-room-form" class="create-form">
+        <label for="room-name">공간 이름</label>
+        <input id="room-name" name="name" maxlength="40" placeholder="예: 3층 사무실, 회의실 A" autocomplete="off" />
+
+        <label for="ttl-minutes">투표 유효 시간</label>
+        <select id="ttl-minutes" name="ttlMinutes">
+          <option value="15">최근 15분만 보기</option>
+          <option value="30">최근 30분만 보기</option>
+          <option value="45" selected>최근 45분만 보기</option>
+          <option value="60">최근 1시간만 보기</option>
+          <option value="120">최근 2시간만 보기</option>
+        </select>
+
+        <button class="primary-button" type="submit">방 만들기</button>
+      </form>
+
+      <div class="microcopy">로그인 없음 · 이름 없음 · 한 기기당 한 표 · 호스트만 초기화</div>
+    </section>
+  </template>
+
+  <template id="room-template">
+    <section class="room-layout">
+      <div class="card top-card">
+        <div class="room-header">
+          <div>
+            <div class="eyebrow">방 코드 <span id="room-id"></span></div>
+            <h1 id="room-name">우리 공간</h1>
+          </div>
+          <a class="ghost-button" href="/">새 방</a>
+        </div>
+
+        <div id="host-panel" class="host-panel hidden">
+          <div class="qr-wrap">
+            <img id="qr-image" alt="참여 링크 QR 코드" />
+          </div>
+          <div class="share-box">
+            <div class="share-title">이 QR을 사무실 화면에 띄워</div>
+            <input id="share-url" readonly />
+            <div class="share-actions">
+              <button id="copy-link-button" class="secondary-button" type="button">링크 복사</button>
+              <button id="reset-button" class="danger-button" type="button">투표 초기화</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card vote-card">
+        <h2>나는 지금...</h2>
+        <div class="vote-grid" role="group" aria-label="체감 온도 투표">
+          <button class="vote-button" data-vote="hot" type="button">
+            <span class="emoji">🥵</span>
+            <span>더워요</span>
+          </button>
+          <button class="vote-button" data-vote="ok" type="button">
+            <span class="emoji">😌</span>
+            <span>괜찮아요</span>
+          </button>
+          <button class="vote-button" data-vote="cold" type="button">
+            <span class="emoji">🥶</span>
+            <span>추워요</span>
+          </button>
+        </div>
+        <p id="vote-status" class="microcopy">누르면 바로 반영돼.</p>
+      </div>
+
+      <div class="card result-card">
+        <div class="result-head">
+          <div>
+            <div class="eyebrow">실시간 분위기</div>
+            <h2 id="mood-text">아직 투표 없음</h2>
+          </div>
+          <div class="total-pill"><span id="total-count">0</span>명</div>
+        </div>
+
+        <div class="bars">
+          <div class="bar-row">
+            <div class="bar-label">🥵 더워요 <strong id="hot-count">0</strong></div>
+            <div class="bar-track"><div id="hot-bar" class="bar-fill hot"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">😌 괜찮아요 <strong id="ok-count">0</strong></div>
+            <div class="bar-track"><div id="ok-bar" class="bar-fill ok"></div></div>
+          </div>
+          <div class="bar-row">
+            <div class="bar-label">🥶 추워요 <strong id="cold-count">0</strong></div>
+            <div class="bar-track"><div id="cold-bar" class="bar-fill cold"></div></div>
+          </div>
+        </div>
+
+        <div class="hint-box">
+          <div class="hint-title">눈치 판단</div>
+          <p id="hint-text">QR을 공유하고 한 번씩 눌러보면 돼.</p>
+        </div>
+
+        <p id="room-meta" class="microcopy"></p>
+      </div>
+    </section>
+  </template>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+{
+  "name": "nunchi-temperature-poll",
+  "version": "1.0.0",
+  "description": "A tiny anonymous hot/cold office temperature poll web app.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "NODE_ENV=development nodemon server.js"
+  },
+  "keywords": [
+    "temperature",
+    "poll",
+    "office",
+    "comfort",
+    "socket.io"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.19.2",
+    "qrcode": "^1.5.4",
+    "socket.io": "^4.7.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
