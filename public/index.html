@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#111827" />
-  <title>눈치온도 - 더워요/추워요 익명 투표</title>
-  <meta name="description" content="QR로 들어와서 더워요, 괜찮아요, 추워요만 누르는 초간단 사무실 온도 눈치 투표." />
+  <title>눈치온도 - 더워요 / 괜찮아요 / 추워요 익명 투표</title>
+  <meta name="description" content="QR 하나로 사무실 온도 감각을 빠르게 확인하는 익명 투표 앱. 로그인 없이 더워요, 괜찮아요, 추워요로 바로 참여." />
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
@@ -16,9 +16,9 @@
 
   <template id="home-template">
     <section class="hero card">
-      <div class="eyebrow">눈치 안 보고 공용 온도 조절하기</div>
-      <h1>지금 우리 공간,<br><span>더워? 추워?</span></h1>
-      <p class="lead">QR 하나 띄우고 사람들이 <b>더워요 / 괜찮아요 / 추워요</b>만 누르면 끝. 누가 예민한지 따지지 말고 전체 분위기를 봐.</p>
+      <div class="eyebrow">로그인 없이 바로</div>
+      <h1>공간 온도 익명 투표</h1>
+      <p class="lead"><b>더워요</b>, <b>괜찮아요</b>, <b>추워요</b> 1번 누르고 바로 확인</p>
 
       <form id="create-room-form" class="create-form">
         <label for="room-name">공간 이름</label>
@@ -26,17 +26,17 @@
 
         <label for="ttl-minutes">투표 유효 시간</label>
         <select id="ttl-minutes" name="ttlMinutes">
-          <option value="15">최근 15분만 보기</option>
-          <option value="30">최근 30분만 보기</option>
-          <option value="45" selected>최근 45분만 보기</option>
-          <option value="60">최근 1시간만 보기</option>
-          <option value="120">최근 2시간만 보기</option>
+          <option value="15">최근 15분</option>
+          <option value="30">최근 30분</option>
+          <option value="45" selected>최근 45분</option>
+          <option value="60">최근 1시간</option>
+          <option value="120">최근 2시간</option>
         </select>
 
         <button class="primary-button" type="submit">방 만들기</button>
       </form>
 
-      <div class="microcopy">로그인 없음 · 이름 없음 · 한 기기당 한 표 · 호스트만 초기화</div>
+      <div class="microcopy">한 사람 한 표</div>
     </section>
   </template>
 
@@ -56,18 +56,18 @@
             <img id="qr-image" alt="참여 링크 QR 코드" />
           </div>
           <div class="share-box">
-            <div class="share-title">이 QR을 사무실 화면에 띄워</div>
+            <div class="share-title">QR 참여</div>
             <input id="share-url" readonly />
             <div class="share-actions">
               <button id="copy-link-button" class="secondary-button" type="button">링크 복사</button>
-              <button id="reset-button" class="danger-button" type="button">투표 초기화</button>
+              <button id="reset-button" class="danger-button" type="button">초기화</button>
             </div>
           </div>
         </div>
       </div>
 
       <div class="card vote-card">
-        <h2>나는 지금...</h2>
+        <h2>나는 지금</h2>
         <div class="vote-grid" role="group" aria-label="체감 온도 투표">
           <button class="vote-button" data-vote="hot" type="button">
             <span class="emoji">🥵</span>
@@ -82,13 +82,13 @@
             <span>추워요</span>
           </button>
         </div>
-        <p id="vote-status" class="microcopy">누르면 바로 반영돼.</p>
+        <p id="vote-status" class="microcopy">한 번 누르면 바로 반영돼요.</p>
       </div>
 
       <div class="card result-card">
         <div class="result-head">
           <div>
-            <div class="eyebrow">실시간 분위기</div>
+            <div class="eyebrow">실시간 집계</div>
             <h2 id="mood-text">아직 투표 없음</h2>
           </div>
           <div class="total-pill"><span id="total-count">0</span>명</div>
@@ -110,8 +110,8 @@
         </div>
 
         <div class="hint-box">
-          <div class="hint-title">눈치 판단</div>
-          <p id="hint-text">QR을 공유하고 한 번씩 눌러보면 돼.</p>
+        <div class="hint-title">추천</div>
+          <p id="hint-text">집계 기준으로 조절해요.</p>
         </div>
 
         <p id="room-meta" class="microcopy"></p>
