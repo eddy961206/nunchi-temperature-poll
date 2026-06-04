@@ -70,7 +70,7 @@ async function createRoom(event) {
   const button = form.querySelector('button[type="submit"]');
   const formData = new FormData(form);
 
-  setLoading(button, true, '방 만드는 중...');
+  setLoading(button, true, '만드는 중...');
   try {
     const response = await fetch('/api/rooms', {
       method: 'POST',
@@ -85,7 +85,7 @@ async function createRoom(event) {
     localStorage.setItem(`nunchi-temperature-host-${data.roomId}`, data.hostToken);
     window.location.hash = `#/r/${data.roomId}?host=${data.hostToken}`;
   } catch (error) {
-    alert('방을 못 만들었어. 서버가 켜져 있는지 확인해줘.');
+    alert('방 생성 실패');
   } finally {
     setLoading(button, false);
   }
@@ -134,17 +134,17 @@ function renderRoomShell(roomId, hostToken) {
   });
 
   socket.emit('room:join', { roomId }, (result) => {
-    if (!result?.ok) {
-      app.innerHTML = `<section class="card hero"><h1>방을 못 찾았어</h1><p class="lead">코드가 틀렸거나 방이 지워졌을 수 있어.</p><a class="primary-button" href="/">새 방 만들기</a></section>`;
-      return;
-    }
-    updateSnapshot(result.snapshot);
+      if (!result?.ok) {
+        app.innerHTML = `<section class="card hero"><h1>방을 못 찾았어</h1><p class="lead">새로 시작할래?</p><a class="primary-button" href="/">새 방 만들기</a></section>`;
+        return;
+      }
+      updateSnapshot(result.snapshot);
   });
 }
 
 function submitVote(vote) {
   const deviceId = getDeviceId();
-  qs('#vote-status').textContent = `${labels[vote]}로 반영하는 중...`;
+  qs('#vote-status').textContent = `${labels[vote]} 반영 중`;
   socket.emit('room:vote', {
     roomId: currentRoomId,
     deviceId,
@@ -155,7 +155,7 @@ function submitVote(vote) {
       return;
     }
     setMyVote(currentRoomId, vote);
-    qs('#vote-status').textContent = `${labels[vote]}로 반영됐어. 언제든 다시 누르면 바뀌어.`;
+    qs('#vote-status').textContent = `${labels[vote]} 반영됨`;
     updateSelectedVote();
   });
 }
@@ -201,7 +201,7 @@ function updateSnapshot(nextSnapshot) {
   qs('#ok-bar').style.width = `${pct(snapshot.counts.ok, snapshot.total)}%`;
   qs('#cold-bar').style.width = `${pct(snapshot.counts.cold, snapshot.total)}%`;
 
-  qs('#room-meta').textContent = `최근 ${snapshot.ttlMinutes}분 투표만 반영 · 마지막 업데이트 ${formatTime(snapshot.lastUpdatedAt)}`;
+  qs('#room-meta').textContent = `최근 ${snapshot.ttlMinutes}분`;
   updateSelectedVote();
 }
 
